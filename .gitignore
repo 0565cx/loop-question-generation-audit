@@ -1,0 +1,11 @@
+.Rhistory
+__pycache__/
+*.pyc
+.DS_Store
+.env
+*.xlsx
+*.xls
+*.jsonl
+checkpoint.xlsx
+audit_batches/
+audit_results/
