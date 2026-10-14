@@ -1,6 +1,6 @@
 ---
 name: loop-question-generation-audit
-description: 循环出题与审题工作流。编排人调度出题人(qwen-plus)按表格自带提示词出题、审题人(GPT5.5)对每批题同步做知识审核和语言审核，未通过的题标记“重出”后整理回流，循环往复直到全部题目通过知识审核和语言审核，最终导出好题表。Use when 用户提到 循环出题、出题审题闭环、重出题回流、批量出题、题目表格重出、知识审核加语言审核、qwen出题GPT审题、好题表导出。
+description: 循环出题与审题工作流。编排人调度出题人(qwen3.7-plus)按表格自带提示词出题、审题人(GPT5.5)对每批题同步做知识审核和语言审核，未通过的题标记“重出”后整理回流，循环往复直到全部题目通过知识审核和语言审核，最终导出好题表。Use when 用户提到 循环出题、出题审题闭环、重出题回流、批量出题、题目表格重出、知识审核加语言审核、qwen出题GPT审题、好题表导出。
 disable-model-invocation: true
 ---
 
@@ -13,7 +13,7 @@ disable-model-invocation: true
 ## 角色分工（固定）
 
 - **编排人（你 + 本 skill 的脚本）**：整理输入表、做字段映射、把字段填进出题人提示词、调度出题人、合并两路审题结果、按“重出”口径分流、控制循环、导出好题表。编排逻辑固定在 `scripts/` 里。
-- **出题人：qwen-plus**（DashScope）。只按输入表自带的出题/出答案提示词生成题目和三层参考答案，不额外改写规则。
+- **出题人：qwen3.7-plus**（DashScope）。只按输入表自带的出题/出答案提示词生成题目和三层参考答案，不额外改写规则。
 - **审题人：GPT5.5**。对每道题**同步**做两类审核：知识审核 + 语言审核。审核规则**必须逐字来自** `references/` 下两个材料，脚本不改写、不缩写、不扩展。
 
 ## 审核规则来源（禁止改写）
@@ -59,7 +59,7 @@ disable-model-invocation: true
 用户提交“重出”题目表
       │
       ▼
-出题人(qwen-plus) 按每行自带提示词出新题 + 三层答案
+出题人(qwen3.7-plus) 按每行自带提示词出新题 + 三层答案
       │
       ▼
 审题人(GPT5.5) 对每题同步做 知识审核 + 语言审核
@@ -104,7 +104,7 @@ python3 orchestrate.py \
 
 当当前 Cursor 模型就是审题人，或希望发起子代理审题时，使用此模式：
 
-1. 先用 qwen-plus 出题并生成待审批次：
+1. 先用 qwen3.7-plus 出题并生成待审批次：
 
 ```bash
 python3 prepare_cursor_audit.py \
@@ -158,7 +158,7 @@ python3 orchestrate.py --input <重出表.xlsx> --out-dir <目录> --retry-failu
 - `scripts/auditor.py`：审题人调用，整段注入两份审核规则原文，产出知识+语言双审结果并按口径汇总。
 - `scripts/checkpoint.py`：题级断点续跑存储，逐题落盘、resume 跳过、retry-failures 重跑、好题池恢复。
 - `scripts/orchestrate.py`：外部 API 审题模式的循环主控。
-- `scripts/prepare_cursor_audit.py`：Cursor/子代理审题模式下，先用 qwen-plus 生成新题并拆分待审 JSON 批次。
+- `scripts/prepare_cursor_audit.py`：Cursor/子代理审题模式下，先用 qwen3.7-plus 生成新题并拆分待审 JSON 批次。
 - `scripts/apply_cursor_audit.py`：Cursor/子代理审题模式下，回收 `audit_results/audit_batch_*.json`，合并 checkpoint、好题表和下一轮重出表。
 
 ## 注意事项

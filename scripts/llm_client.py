@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""出题人(qwen-plus)与审题人(GPT5.5)的模型客户端封装。"""
+"""出题人(qwen3.7-plus)与审题人(GPT5.5)的模型客户端封装。"""
 
 from __future__ import annotations
 
@@ -32,7 +32,7 @@ def _require_openai() -> None:
 
 
 def make_generator_client() -> Any:
-    """出题人：qwen-plus。"""
+    """出题人：qwen3.7-plus。"""
     _require_openai()
     api_key = _first_env(C.GENERATOR_API_KEY_ENVS)
     if not api_key:

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Cursor 审题模式：先用 qwen-plus 批量出题，生成待审文件与分批 JSON。
+"""Cursor 审题模式：先用 qwen3.7-plus 批量出题，生成待审文件与分批 JSON。
 
 不调用外部 GPT API。后续由 Cursor 当前模型/子代理读取 batch_*.json 审题，并输出 audit_batch_*.json。
 """

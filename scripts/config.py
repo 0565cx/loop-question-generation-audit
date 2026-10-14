@@ -4,7 +4,7 @@
 
 角色分工（固定，不要改动语义）：
 - 编排人：本套脚本。负责整理表格、字段映射、调度出题人、合并审题结果、循环控制、导出好题表。
-- 出题人：qwen-plus（DashScope）。只按表格自带的出题/出答案提示词生成题目与三层答案。
+- 出题人：qwen3.7-plus（DashScope）。只按表格自带的出题/出答案提示词生成题目与三层答案。
 - 审题人：GPT5.5。对每批题目同步做知识审核与语言审核，审核规则必须严格来自 references 下的两个材料。
 """
 
@@ -20,8 +20,8 @@ REFERENCES_DIR = SKILL_DIR / "references"
 KNOWLEDGE_AUDIT_PROMPT_FILE = REFERENCES_DIR / "knowledge-audit-prompt.txt"
 LANGUAGE_AUDIT_RULES_FILE = REFERENCES_DIR / "language-audit-rules.md"
 
-# ---- 出题人（qwen-plus）----
-GENERATOR_MODEL = "qwen-plus"
+# ---- 出题人（qwen3.7-plus）----
+GENERATOR_MODEL = "qwen3.7-plus"
 GENERATOR_BASE_URL = "https://dashscope.aliyuncs.com/compatible-mode/v1"
 GENERATOR_API_KEY_ENVS = ["DASHSCOPE_API_KEY", "QWEN_API_KEY"]
 
